@@ -12,7 +12,7 @@ else:
 
 WINDOW_TITLE = "Anima-P3"
 RENDERER_CLASS = "Chrome_Anima_P3"
-WINDOW_WIDTH = 800
+WINDOW_WIDTH = 700
 WINDOW_HEIGHT = 600
 
 class Application:
@@ -23,7 +23,7 @@ class Application:
             js_api=Api(),
             width=WINDOW_WIDTH,
             height=WINDOW_HEIGHT,
-            min_size=(800, 600),
+            min_size=(700, 600),
             resizable=True,
             frameless=True,
         )

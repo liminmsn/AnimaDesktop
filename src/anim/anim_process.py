@@ -1,13 +1,11 @@
 import subprocess
 from pathlib import Path
-
 from src.core.resources import ROOT
 
 CLI = ROOT / "runtime" / "sd-cli.exe"
 MODEL = ROOT / "models" / "Anima-P3-Turbo-AIO-Q4_K.gguf"
 
-
-def generate_image(prompt: str, out_file) -> Path:
+def generate_image(prompt: str, out_file):
     out_file = Path(out_file)
 
     if not CLI.is_file():
@@ -33,7 +31,6 @@ def generate_image(prompt: str, out_file) -> Path:
         "-o", str(out_file),
     ]
 
-    # 用 Popen 才能流式读取；cwd 传 CLI 的父目录
     process = subprocess.Popen(
         command,
         cwd=str(CLI.parent),
@@ -47,15 +44,13 @@ def generate_image(prompt: str, out_file) -> Path:
     assert process.stdout is not None
     for line in process.stdout:
         print(line, end="", flush=True)
-
-    return_code = process.wait()
     
-    # print(f"\n引擎退出码：{return_code}")
+    return_code = process.wait()
+    print(f"\n引擎退出码：{return_code}")
 
     if return_code != 0:
         raise RuntimeError(f"Stable Diffusion.cpp 执行失败，退出码：{return_code}")
-
+    
     if not out_file.is_file():
         raise RuntimeError("引擎退出，但没有找到输出图片。")
-
-    return out_file
+    # return out_file
