@@ -1,11 +1,14 @@
 import subprocess
 from pathlib import Path
 from src.core.resources import ROOT
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from src.Api import Api
 
 CLI = ROOT / "runtime" / "sd-cli.exe"
 MODEL = ROOT / "models" / "Anima-P3-Turbo-AIO-Q4_K.gguf"
 
-def generate_image(prompt: str, out_file):
+def generate_image(api:'Api', prompt: str, out_file):
     out_file = Path(out_file)
 
     if not CLI.is_file():
@@ -44,6 +47,7 @@ def generate_image(prompt: str, out_file):
     assert process.stdout is not None
     for line in process.stdout:
         print(line, end="", flush=True)
+        api.notify(line)
     
     return_code = process.wait()
     print(f"\n引擎退出码：{return_code}")

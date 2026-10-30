@@ -1,22 +1,32 @@
-import { Button } from "@workspace/ui/components/button"
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@workspace/ui/components/resizable"
+import AnTopBar from "./comp/AnTopBar";
+import AnInfoView from "./comp/AnInfoView";
+import AnDirView from "./comp/AnDirView";
+import AnFileLinkView from "./comp/AnFileLinkView";
+import AnEditView from "./comp/AnEditView";
 
-async function test() {
-  const result = await window.pywebview.api.create_png("masterpiece, best quality, a peaceful Japanese garden", "C:/Users/limin/Desktop/test.png");
-  console.log(result);
-}
 
 export default function () {
-  return <div className="flex min-h-svh p-6 rounded-2xl overflow-hidden">
-    <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-      <div>
-        <h1 className="font-medium">Project ready!</h1>
-        <p>You may now add components and start building.</p>
-        <p>We&apos;ve already added the button component for you.</p>
-        <Button className="mt-2" onClick={test}>Button</Button>
-      </div>
-      <div className="text-muted-foreground font-mono text-xs">
-        (Press <kbd>d</kbd> to toggle dark mode)
-      </div>
-    </div>
+  return <div className="h-screen flex flex-col">
+    <AnTopBar />
+    <ResizablePanelGroup
+      orientation="horizontal"
+      className="w-full"
+    >
+      <ResizablePanel minSize="25%">
+        <AnDirView />
+      </ResizablePanel>
+      <ResizableHandle withHandle />
+      <ResizablePanel minSize="50%">
+        <div className="px-2 mt-1">
+          <AnFileLinkView />
+          <AnEditView />
+        </div>
+      </ResizablePanel>
+      <ResizableHandle withHandle />
+      <ResizablePanel defaultSize="30%">
+        <AnInfoView />
+      </ResizablePanel>
+    </ResizablePanelGroup>
   </div>
 }
