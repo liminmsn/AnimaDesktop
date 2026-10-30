@@ -54,7 +54,7 @@ export default function (_args: any) {
                     </DialogHeader>
                 </DialogContent>
             </Dialog>
-            <Button variant="outline" className="hght">导入项目</Button>
+            <Button variant="outline" className="hght">打开目录</Button>
         </EmptyContent>
         <div className="text-muted-foreground font-mono text-xs">
             (Press <kbd>d</kbd> to toggle dark mode)
