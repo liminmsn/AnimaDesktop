@@ -12,7 +12,9 @@ export default function () {
             <MenubarContent>
                 <MenubarGroup>
                     <MenubarItem>
-                        <span className="text-nowrap">退出程序</span>
+                        <span className="text-nowrap" onClick={()=>{
+                            window.pywebview.api.exit_app()
+                        }}>退出程序</span>
                         {/* <MenubarShortcut>
                             <KbdGroup>
                                 <Kbd>Ctrl</Kbd>

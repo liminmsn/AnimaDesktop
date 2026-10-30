@@ -21,28 +21,24 @@ class Api:
             )
 
     def create_png(self, prompt, out_file):
+        """调用本地模型生成图片"""
         from src.anim.anim_process import generate_image
         return generate_image(self, prompt, out_file)
-
+    def exit_app(self):
+        if not self._app or not self._app.win:
+            return None
+        self._app.win.destroy()
+        pass
     def select_folder(self):
         """打开原生文件夹选择器，返回选中目录的绝对路径"""
         if not self._app or not self._app.win:
             return None
         
-        # 调用核心 API，指定对话框类型为 FOLDER_DIALOG
         result = self._app.win.create_file_dialog(
             dialog_type=webview.FOLDER_DIALOG,
-            allow_multiple=False,  # 通常只选一个文件夹
-            directory=""           # 可以设置一个默认打开的起始路径
+            allow_multiple=False,
+            directory=""
         )
-        # 用户取消选择时，result 通常是 None 或空元组
         if result:
-            return result[0]  # 返回选中的第一个路径
+            return result[0]
         return None
-
-    def get_message(self):
-        return {"success": True, "message": "pywebview 初始化成功"}
-
-    def greet(self, name):
-        name = str(name).strip()[:100] or "朋友"
-        return f"你好，{name}！"
