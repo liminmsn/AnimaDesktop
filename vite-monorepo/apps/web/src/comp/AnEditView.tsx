@@ -12,8 +12,5 @@ export default function () {
         <h1 className="font-medium text-sm leading-loose">提示词</h1>
         <Textarea className="h-40" placeholder="这里输入提示词" />
         <Button className="mt-2" onClick={test}>生成</Button>
-        <div className="text-muted-foreground font-mono text-xs">
-            (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
     </div>
 }

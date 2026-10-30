@@ -56,6 +56,9 @@ export default function (_args: any) {
             </Dialog>
             <Button variant="outline" className="hght">导入项目</Button>
         </EmptyContent>
+        <div className="text-muted-foreground font-mono text-xs">
+            (Press <kbd>d</kbd> to toggle dark mode)
+        </div>
         <Button disabled variant="link" className="text-muted-foreground" size="sm" nativeButton={false} render={<a href="#">帮助<ArrowUpRightIcon /></a>} />
     </Empty>
 }
