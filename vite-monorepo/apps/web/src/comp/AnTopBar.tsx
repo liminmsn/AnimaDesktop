@@ -4,7 +4,7 @@ import { Kbd, KbdGroup } from "@workspace/ui/components/kbd"
 export default function () {
     return <Menubar className="rounded-none">
         <MenubarMenu>
-            <MenubarTrigger>本地绘画师</MenubarTrigger>
+            <MenubarTrigger className="hght">本地绘画师</MenubarTrigger>
             <MenubarContent>
                 <MenubarGroup>
                     <MenubarItem>

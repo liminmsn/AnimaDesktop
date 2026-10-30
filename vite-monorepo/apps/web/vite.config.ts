@@ -9,9 +9,10 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": resolve(import.meta.dirname, "./src"),
+      '@tabler/icons-react': '@tabler/icons-react/dist/esm/icons/index.mjs',
     },
   },
-  base:"./",
+  base: "./",
   build: {
     outDir: "../../../resources/www"
   }

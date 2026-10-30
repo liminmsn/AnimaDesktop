@@ -1,0 +1,11 @@
+@font-face {
+  font-family: "hght";
+  src: url("./HuaGuangGangHeiTi-2.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.hght{
+    font-family: "hght";
+}
