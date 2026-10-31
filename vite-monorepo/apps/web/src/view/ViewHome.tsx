@@ -24,10 +24,10 @@ export default function () {
     return <Empty className="pt-0">
         <div className="">
             <img width={155} srcSet={logo} />
-            <Card className="absolute right-20 top-15 px-3 max-w-55">
-                <Label className="text-left">Hi～我是绘图师🥰<br/>
+            <Card className="absolute right-32 top-15 px-3 bg-accent/50 shadow">
+                <Label className="text-left inline-40 leading-5 text-[9pt]">Hi～我是绘图师🥰<br/>
                     主打 Q 版拟人、日系动漫风格 LOGO 与图标设计。
-                    喜欢把想法揉成软萌又有记忆点的小形象，偏爱简洁好识别的构图，适配 1:1 方形图标。
+                    喜欢把想法揉成软萌又有记忆点的小形象，偏爱简洁好识别的构图。
                     依托 Anima-P3-Turbo-AIO-Q4_K 出图，一起把脑洞变成好看的画面！</Label>
             </Card>
         </div>

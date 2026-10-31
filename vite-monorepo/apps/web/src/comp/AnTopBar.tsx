@@ -21,7 +21,7 @@ export default function () {
         </MenubarMenu>
         <MenubarMenu>
             <MenubarTrigger>
-                <span>关于</span>
+                <span>说明</span>
             </MenubarTrigger>
         </MenubarMenu>
         {path &&
