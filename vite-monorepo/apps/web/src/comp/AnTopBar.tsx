@@ -1,5 +1,4 @@
 import { Menubar, MenubarContent, MenubarGroup, MenubarItem, MenubarMenu, MenubarTrigger } from "@workspace/ui/components/menubar"
-import { Badge } from "@workspace/ui/components/badge"
 import { useRouter } from "@/hooks/RouterProvider"
 
 export default function () {
@@ -27,7 +26,7 @@ export default function () {
         </MenubarMenu>
         {path &&
             <MenubarMenu>
-                <Badge>{path}</Badge>
+                <div className="bg-primary text-primary-foreground text-[9pt] rounded-sm px-1">{path}</div>
             </MenubarMenu>
         }
     </Menubar>

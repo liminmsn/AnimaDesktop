@@ -1,60 +1,16 @@
 import * as React from "react"
 import { ChevronRightIcon, FileIcon, FolderIcon } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/components/tabs"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@workspace/ui/components/collapsible"
 import { Button } from "@workspace/ui/components/button"
+import { IconFolder, IconPhoto } from "@tabler/icons-react"
 
 
 type FileNode =
   | { type: "file"; name: string; path: string }
   | { type: "folder"; name: string; path: string; children: FileNode[] }
 
-const files: FileNode[] = [
-  {
-    type: "folder",
-    name: "app",
-    path: "app",
-    children: [
-      { type: "file", name: "layout.tsx", path: "app/layout.tsx" },
-      { type: "file", name: "page.tsx", path: "app/page.tsx" },
-    ],
-  },
-  {
-    type: "folder",
-    name: "components",
-    path: "components",
-    children: [
-      {
-        type: "folder",
-        name: "ui",
-        path: "components/ui",
-        children: [
-          {
-            type: "file",
-            name: "button.tsx",
-            path: "components/ui/button.tsx",
-          },
-        ],
-      },
-      {
-        type: "file",
-        name: "login-form.tsx",
-        path: "components/login-form.tsx",
-      },
-    ],
-  },
-]
-
-function FileTreeNode({
-  node,
-  selected,
-  onSelect,
-}: {
-  node: FileNode
-  selected: string
-  onSelect: (path: string) => void
-}) {
+function FileTreeNode({ node, selected, onSelect }: { node: FileNode; selected: string; onSelect: (path: string) => void }) {
   switch (node.type) {
     case "folder":
       return <Collapsible defaultOpen>
@@ -94,11 +50,54 @@ function FileTreeNode({
 export default function () {
   const [selected, setSelected] = React.useState("components/ui/button.tsx")
 
+
+  const files: FileNode[] = [
+    {
+      type: "folder",
+      name: "app",
+      path: "app",
+      children: [
+        { type: "file", name: "layout.tsx", path: "app/layout.tsx" },
+        { type: "file", name: "page.tsx", path: "app/page.tsx" },
+      ],
+    },
+    {
+      type: "folder",
+      name: "components",
+      path: "components",
+      children: [
+        {
+          type: "folder",
+          name: "ui",
+          path: "components/ui",
+          children: [
+            {
+              type: "file",
+              name: "button.tsx",
+              path: "components/ui/button.tsx",
+            },
+          ],
+        },
+        {
+          type: "file",
+          name: "login-form.tsx",
+          path: "components/login-form.tsx",
+        },
+      ],
+    },
+  ]
+
   return <div className="flex w-full max-w-xs flex-col text-sm">
     <Tabs defaultValue="overview" className="w-full gap-y-1">
-      <TabsList className="mx-1 mt-1">
-        <TabsTrigger value="overview">目录</TabsTrigger>
-        <TabsTrigger value="analytics">绘图集</TabsTrigger>
+      <TabsList className="mt-1 ml-2">
+        <TabsTrigger value="overview">
+          <IconFolder />
+          目录
+        </TabsTrigger>
+        <TabsTrigger value="analytics">
+          <IconPhoto />
+          绘图集
+        </TabsTrigger>
       </TabsList>
       <TabsContent value="overview">
         {files.map((node) => (
@@ -111,7 +110,7 @@ export default function () {
         ))}
       </TabsContent>
       <TabsContent value="analytics">
-        <Card>
+        {/* <Card>
           <CardHeader>
             <CardTitle>Analytics</CardTitle>
             <CardDescription>
@@ -122,7 +121,7 @@ export default function () {
           <CardContent className="text-sm text-muted-foreground">
             Page views are up 25% compared to last month.
           </CardContent>
-        </Card>
+        </Card> */}
       </TabsContent>
     </Tabs>
   </div>
