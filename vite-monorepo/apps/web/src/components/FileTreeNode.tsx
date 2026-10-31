@@ -46,7 +46,15 @@ export default function FileTreeNode({ node, selected, onSelect }: { node: FileN
     switch (node.type) {
         case "folder":
             return <Collapsible defaultOpen>
-                <CollapsibleTrigger render={<Button variant="ghost" size="sm" className="w-full justify-start font-normal aria-expanded:bg-transparent aria-expanded:hover:bg-muted dark:aria-expanded:hover:bg-muted/50"><ChevronRightIcon className="transition-transform group-data-panel-open/button:rotate-90" /><FolderIcon />{node.name}</Button>} />
+                <CollapsibleTrigger
+                    render={
+                        <Button variant="ghost" size="sm"
+                            className="w-full justify-start font-normal aria-expanded:bg-transparent aria-expanded:hover:bg-muted dark:aria-expanded:hover:bg-muted/50">
+                            <ChevronRightIcon className="transition-transform group-data-panel-open/button:rotate-90" />
+                            <FolderIcon />
+                            {node.name}
+                        </Button>
+                    } />
                 <CollapsibleContent>
                     <div className="ml-4 flex flex-col">
                         {node.children.map((child) => (

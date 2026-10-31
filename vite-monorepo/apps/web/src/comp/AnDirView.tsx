@@ -1,25 +1,28 @@
-import type { FileNode } from "@/components/FileTreeNode"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/components/tabs"
 import { IconFolder, IconPhoto } from "@tabler/icons-react"
-import { useRouter } from "@/hooks/RouterProvider"
-import { useEffect, useState } from "react"
+import type { FileNode } from "@/components/FileTreeNode"
+import { useEditContext } from "@/hooks/EditProvider"
 import FileTreeNode from "@/components/FileTreeNode"
-import LodingView from "../components/LodingView"
+import { useRouter } from "@/hooks/RouterProvider"
+import LodingView from "@/components/LodingView"
+import { useEffect, useState } from "react"
 
 export default function () {
-  const [selected, setSelected] = useState("components/ui/button.tsx")
   const { reducer } = useRouter()
   const path = reducer.state.path;
+  //目录所有文件、选择文件
   const [files, setFiles] = useState<FileNode[]>([])
+  const { state, dispatch } = useEditContext()
 
   useEffect(() => {
+    dispatch({ type: "RESET" })
     setTimeout(() => {
       window.pywebview.api.load_dir(path).then(res => {
         setFiles([res])
         console.log(res);
       })
     }, 500);
-  }, [path])
+  }, [dispatch, path])
 
   return <div className="flex w-full max-w-xs flex-col text-sm">
     <Tabs defaultValue="overview" className="w-full gap-y-1">
@@ -28,14 +31,12 @@ export default function () {
         <TabsTrigger value="analytics"><IconPhoto />绘图集</TabsTrigger>
       </TabsList>
       <TabsContent value="overview">
-        <LodingView show={files.length > 0} children={files.map((node) => (
-          <FileTreeNode
-            key={node.path}
-            node={node}
-            selected={selected}
-            onSelect={setSelected}
-          />
-        ))} />
+        <LodingView show={files.length > 0} children={files.map((node) => <FileTreeNode
+          key={node.path}
+          node={node}
+          selected={state.current_file || ""}
+          onSelect={(path) => dispatch({ type: "SELECT_FILE", path })}
+        />)} />
       </TabsContent>
       <TabsContent value="analytics">
         {/* <Card>
