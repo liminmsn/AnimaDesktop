@@ -7,9 +7,13 @@ import { useRouter } from "@/hooks/RouterProvider"
 
 export default function () {
     const { reducer } = useRouter()
-    async function select_folder() {
-        const result = await window.pywebview.api.select_folder()
-        reducer.dispatch({ type: "OPEN_PATH", path: result })
+    function select_folder() {
+        window.pywebview.api.select_folder().then(path => {
+            if (path) {
+                console.log(path);
+                reducer.dispatch({ type: "OPEN_PATH", path })
+            }
+        })
     }
 
     return <Empty className="pt-0">
