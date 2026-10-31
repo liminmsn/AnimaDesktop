@@ -1,26 +1,50 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useReducer, useState } from "react";
 import ViewHome from "@/view/ViewHome";
 import ViewEdit from "@/view/ViewEdit";
 
+type RouterState = {
+  path: string | undefined
+};
+type Action =
+  | { type: "OPEN_PATH"; path: string | undefined }
+  | { type: "RESET" };
+type RouterContextValue = {
+  state: RouterState;
+  dispatch: React.Dispatch<Action>;
+};
 type RouterViewEnumType = keyof typeof RouterViewEnum;
 interface RouterProviderType {
-  current: React.ReactNode;
-  to: (page: RouterViewEnumType, args?: any) => void;
+  current: () => React.JSX.Element;
+  reducer: RouterContextValue
 }
 
 const RouterViewEnum = {
   HOME: ViewHome,
   EDIT: ViewEdit
 }
+
 const RouterProvider = createContext<RouterProviderType | undefined>(undefined);
-
 export default function ({ children }: { children: React.ReactNode }) {
-  const [current, setCurrent] = useState(RouterViewEnum.HOME(undefined));
-
-  function to(page: RouterViewEnumType, args?: any) {
-    setCurrent(RouterViewEnum[page](args))
+  // 路由
+  const [current, setCurrent] = useState(() => RouterViewEnum.HOME);
+  function to(page: RouterViewEnumType) {
+    setCurrent(() => RouterViewEnum[page])
   }
-  return <RouterProvider.Provider value={{ current, to }}>
+  // 数据
+  function globalStateReducer(state: RouterState, action: Action): RouterState {
+    switch (action.type) {
+      case "OPEN_PATH":
+        to("EDIT")
+        return { ...state, path: action.path };
+      case "RESET":
+        to("HOME")
+        return { path: undefined };
+      default:
+        return state;
+    }
+  }
+  const [state, dispatch] = useReducer(globalStateReducer, { path: undefined });
+  return <RouterProvider.Provider value={{ current, reducer: { state, dispatch } }}>
     {children}
   </RouterProvider.Provider>
 }
@@ -28,7 +52,7 @@ export default function ({ children }: { children: React.ReactNode }) {
 export function useRouter() {
   const ctx = useContext(RouterProvider);
   if (!ctx) {
-    throw new Error("useCounter 必须在 <CounterProvider> 内部使用");
+    throw new Error("useRouter 必须在 <CounterProvider> 内部使用");
   }
   return ctx;
 }

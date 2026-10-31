@@ -4,8 +4,7 @@ import AnEditView from "@/comp/AnEditView"
 import AnFileLinkView from "@/comp/AnFileLinkView"
 import AnInfoView from "@/comp/AnInfoView"
 
-export default function (_args:any) {
-    console.log(_args);
+export default function () {
     return <ResizablePanelGroup orientation="horizontal" className="w-full">
         <ResizablePanel minSize="25%">
             <AnDirView />

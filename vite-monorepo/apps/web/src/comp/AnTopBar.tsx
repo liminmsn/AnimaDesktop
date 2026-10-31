@@ -1,27 +1,24 @@
 import { Menubar, MenubarContent, MenubarGroup, MenubarItem, MenubarMenu, MenubarTrigger } from "@workspace/ui/components/menubar"
-// import { Kbd, KbdGroup } from "@workspace/ui/components/kbd"
-import { IconPhotoAi } from "@tabler/icons-react"
+import { Badge } from "@workspace/ui/components/badge"
+import { useRouter } from "@/hooks/RouterProvider"
 
 export default function () {
+    const { reducer } = useRouter()
+
     return <Menubar className="rounded-none">
-        <MenubarMenu disabled={true}>
-            <MenubarTrigger className="px-0"><IconPhotoAi /></MenubarTrigger>
-        </MenubarMenu>
         <MenubarMenu>
             <MenubarTrigger className="hght">本地绘画师</MenubarTrigger>
             <MenubarContent>
                 <MenubarGroup>
                     <MenubarItem>
-                        <span className="text-nowrap" onClick={()=>{
+                        <span className="text-nowrap" onClick={() => {
+                            reducer.dispatch({ type: "RESET" })
+                        }}>关闭项目</span>
+                    </MenubarItem>
+                    <MenubarItem>
+                        <span className="text-nowrap" onClick={() => {
                             window.pywebview.api.exit_app()
-                        }}>退出程序</span>
-                        {/* <MenubarShortcut>
-                            <KbdGroup>
-                                <Kbd>Ctrl</Kbd>
-                                <span>+</span>
-                                <Kbd>Q</Kbd>
-                            </KbdGroup>
-                        </MenubarShortcut> */}
+                        }}>退出</span>
                     </MenubarItem>
                 </MenubarGroup>
             </MenubarContent>
@@ -30,6 +27,14 @@ export default function () {
             <MenubarTrigger>
                 <span>关于</span>
             </MenubarTrigger>
+        </MenubarMenu>
+        <MenubarMenu>
+            {
+                reducer.state.path &&
+                <Badge>
+                    {reducer.state.path}
+                </Badge>
+            }
         </MenubarMenu>
     </Menubar>
 }
