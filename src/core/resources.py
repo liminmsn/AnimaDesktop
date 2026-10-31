@@ -22,7 +22,7 @@ def scan_tree(root: str) -> dict[str, Any]:
                 children.append({
                     "type": "file",
                     "name": entry.name,
-                    "path": child_rel,
+                    "path": root,
                 })
 
         return {
