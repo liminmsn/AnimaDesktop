@@ -4,21 +4,18 @@ import { useRouter } from "@/hooks/RouterProvider"
 
 export default function () {
     const { reducer } = useRouter()
+    const { path } = reducer.state
 
     return <Menubar className="rounded-none">
         <MenubarMenu>
             <MenubarTrigger className="hght">本地绘画师</MenubarTrigger>
             <MenubarContent>
                 <MenubarGroup>
-                    <MenubarItem>
-                        <span className="text-nowrap" onClick={() => {
-                            reducer.dispatch({ type: "RESET" })
-                        }}>关闭项目</span>
+                    <MenubarItem disabled={!path} onClick={() => { reducer.dispatch({ type: "RESET" }) }}>
+                        关闭项目
                     </MenubarItem>
-                    <MenubarItem>
-                        <span className="text-nowrap" onClick={() => {
-                            window.pywebview.api.exit_app()
-                        }}>退出</span>
+                    <MenubarItem onClick={() => { window.pywebview.api.exit_app() }}>
+                        退出程序
                     </MenubarItem>
                 </MenubarGroup>
             </MenubarContent>
@@ -28,13 +25,10 @@ export default function () {
                 <span>关于</span>
             </MenubarTrigger>
         </MenubarMenu>
-        <MenubarMenu>
-            {
-                reducer.state.path &&
-                <Badge>
-                    {reducer.state.path}
-                </Badge>
-            }
-        </MenubarMenu>
+        {path &&
+            <MenubarMenu>
+                <Badge>{path}</Badge>
+            </MenubarMenu>
+        }
     </Menubar>
 }
