@@ -1,10 +1,46 @@
-import * as React from "react"
 import { ChevronRightIcon, FileIcon, FolderIcon } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/components/tabs"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@workspace/ui/components/collapsible"
 import { Button } from "@workspace/ui/components/button"
 import { IconFolder, IconPhoto } from "@tabler/icons-react"
+import { useRouter } from "@/hooks/RouterProvider"
+import { useEffect, useState } from "react"
 
+// const files_: FileNode[] = [
+//   {
+//     type: "folder",
+//     name: "app",
+//     path: "app",
+//     children: [
+//       { type: "file", name: "layout.tsx", path: "app/layout.tsx" },
+//       { type: "file", name: "page.tsx", path: "app/page.tsx" },
+//     ],
+//   },
+//   {
+//     type: "folder",
+//     name: "components",
+//     path: "components",
+//     children: [
+//       {
+//         type: "folder",
+//         name: "ui",
+//         path: "components/ui",
+//         children: [
+//           {
+//             type: "file",
+//             name: "button.tsx",
+//             path: "components/ui/button.tsx",
+//           },
+//         ],
+//       },
+//       {
+//         type: "file",
+//         name: "login-form.tsx",
+//         path: "components/login-form.tsx",
+//       },
+//     ],
+//   },
+// ]
 
 type FileNode =
   | { type: "file"; name: string; path: string }
@@ -48,44 +84,19 @@ function FileTreeNode({ node, selected, onSelect }: { node: FileNode; selected: 
 }
 
 export default function () {
-  const [selected, setSelected] = React.useState("components/ui/button.tsx")
+  const [selected, setSelected] = useState("components/ui/button.tsx")
+  const { reducer } = useRouter()
+  const path = reducer.state.path;
+  const [files, setFiles] = useState<FileNode[]>([])
 
-
-  const files: FileNode[] = [
-    {
-      type: "folder",
-      name: "app",
-      path: "app",
-      children: [
-        { type: "file", name: "layout.tsx", path: "app/layout.tsx" },
-        { type: "file", name: "page.tsx", path: "app/page.tsx" },
-      ],
-    },
-    {
-      type: "folder",
-      name: "components",
-      path: "components",
-      children: [
-        {
-          type: "folder",
-          name: "ui",
-          path: "components/ui",
-          children: [
-            {
-              type: "file",
-              name: "button.tsx",
-              path: "components/ui/button.tsx",
-            },
-          ],
-        },
-        {
-          type: "file",
-          name: "login-form.tsx",
-          path: "components/login-form.tsx",
-        },
-      ],
-    },
-  ]
+  useEffect(() => {
+    setTimeout(() => {
+      window.pywebview.api.load_dir(path).then(res => {
+        setFiles([res])
+        console.log(res);
+      })
+    }, 500);
+  }, [path])
 
   return <div className="flex w-full max-w-xs flex-col text-sm">
     <Tabs defaultValue="overview" className="w-full gap-y-1">
