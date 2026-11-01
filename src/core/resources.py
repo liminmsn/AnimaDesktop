@@ -3,11 +3,11 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent.parent / "resources"
 
+
 IGNORE = {"node_modules", ".git", ".next", "__pycache__", ".DS_Store"}
-
 def scan_tree(root: str) -> dict[str, Any]:
-    root_path = Path(root)
 
+    root_path = Path(root)
     def walk(dir_path: Path, rel: str) -> dict[str, Any]:
         entries = sorted(dir_path.iterdir(), key=lambda p: (p.is_file(), p.name.lower()))
         children = []

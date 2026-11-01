@@ -13,7 +13,7 @@ export default function () {
             <MenubarContent>
                 <MenubarGroup>
                     <MenubarItem disabled={!path} onClick={() => { reducer.dispatch({ type: "RESET" }) }}>
-                        关闭当前
+                        关闭工程
                     </MenubarItem>
                     <MenubarItem>
                         说明
@@ -27,11 +27,11 @@ export default function () {
         {path &&
             <MenubarMenu>
                 <BreadcrumbList className="gap-0! items-start">
-                    <div className="bg-primary px-1">
-                        <FolderIcon size={15} color="var(--primary-foreground)" />
+                    <div className="bg-primary p-1">
+                        <FolderIcon size={12} color="var(--primary-foreground)" />
                     </div>
-                    <BreadcrumbItem className="px-1.5 text-[8pt] bg-primary-foreground text-primary rounded-br-sm">
-                        {path}
+                    <BreadcrumbItem className="px-1.5 text-[10.5pt] bg-primary-foreground text-primary rounded-r-sm">
+                        <span className="yw">{path}</span>
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </MenubarMenu>

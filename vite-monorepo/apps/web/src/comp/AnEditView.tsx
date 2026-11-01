@@ -3,10 +3,23 @@ import { Textarea } from "@workspace/ui/components/textarea";
 import { IconPhotoAi } from "@tabler/icons-react";
 import AnFileLinkView from "@/comp/AnFileLinkView";
 
+const test_obj = {
+    w: 500,
+    h: 500,
+    steps: 16,
+    cfg_scale: 1,
+    seed: 666,
+    scheduler: "smoothstep",
+    sampling_method: "er_sde",
+    out_file: "C:/Users/limin/Desktop/test/test.png",
+    prompt: "masterpiece, best quality, a peaceful Japanese garden"
+}
+
 async function test() {
-    const result = await window.pywebview.api.create_png("masterpiece, best quality, a peaceful Japanese garden", "C:/Users/limin/Desktop/test.png");
+    const result = await window.pywebview.api.create_png(test_obj);
     console.log(result);
 }
+
 
 export default function () {
     return <>

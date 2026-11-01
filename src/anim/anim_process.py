@@ -2,20 +2,33 @@ import subprocess
 from pathlib import Path
 from src.core.resources import ROOT
 from typing import TYPE_CHECKING
+from dataclasses import dataclass
 if TYPE_CHECKING:
     from src.Api import Api
 
 CLI = ROOT / "runtime" / "sd-cli.exe"
 MODEL = ROOT / "models" / "Anima-P3-Turbo-AIO-Q4_K.gguf"
 
-def generate_image(api:'Api', prompt: str, out_file):
-    out_file = Path(out_file)
 
+@dataclass
+class GenParams:
+    w: int
+    h: int
+    steps: int
+    cfg_scale: float
+    seed: int
+    scheduler: str
+    sampling_method: str
+    out_file: str
+    prompt: str
+
+def generate_image(api:'Api', params:'GenParams'):
     if not CLI.is_file():
         raise FileNotFoundError(f"找不到引擎：{CLI}")
     if not MODEL.is_file():
         raise FileNotFoundError(f"找不到模型：{MODEL}")
 
+    out_file = Path(params.out_file)
     out_file.parent.mkdir(parents=True, exist_ok=True)
 
     command = [
@@ -23,14 +36,14 @@ def generate_image(api:'Api', prompt: str, out_file):
         "-m", str(MODEL),
         "--vae-tiling",
         "--offload-to-cpu",
-        "--steps", "16",
-        "--cfg-scale", "1",
-        "-W", "512",
-        "-H", "768",
-        "--sampling-method", "er_sde",
-        "--scheduler", "smoothstep",
-        "--seed", "666",
-        "-p", prompt,
+        "-W", str(params.w),
+        "-H", str(params.h),
+        "--seed", str(params.seed),
+        "--steps", str(params.steps),
+        "--cfg-scale", str(params.cfg_scale),
+        "--sampling-method", params.sampling_method,
+        "--scheduler", params.scheduler,
+        "-p", params.prompt,
         "-o", str(out_file),
     ]
 
@@ -46,15 +59,19 @@ def generate_image(api:'Api', prompt: str, out_file):
 
     assert process.stdout is not None
     for line in process.stdout:
-        print(line, end="", flush=True)
         api.notify(line)
+        # print(line, end="", flush=True)
     
     return_code = process.wait()
-    print(f"\n引擎退出码：{return_code}")
+
+    result={
+        "code":return_code,
+        "out_file":params.out_file,
+        "message":"图片生成完毕！"
+    }
 
     if return_code != 0:
-        raise RuntimeError(f"Stable Diffusion.cpp 执行失败，退出码：{return_code}")
-    
+        result["message"] = "Stable Diffusion.cpp 执行失败，退出码：{return_code}"
     if not out_file.is_file():
-        raise RuntimeError("引擎退出，但没有找到输出图片。")
-    # return out_file
+        result["message"] = "引擎退出，但没有找到输出图片。"
+    return result
