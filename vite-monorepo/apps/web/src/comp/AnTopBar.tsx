@@ -1,6 +1,6 @@
 import { Menubar, MenubarContent, MenubarGroup, MenubarItem, MenubarMenu, MenubarTrigger } from "@workspace/ui/components/menubar"
-import { useRouter } from "@/hooks/RouterProvider"
 import { BreadcrumbItem, BreadcrumbList } from "@workspace/ui/components/breadcrumb"
+import { useRouter } from "@/hooks/RouterProvider"
 import { FolderIcon } from "lucide-react"
 
 export default function () {
@@ -9,22 +9,20 @@ export default function () {
 
     return <Menubar className="rounded-none">
         <MenubarMenu>
-            <MenubarTrigger className="hght">本地绘画师</MenubarTrigger>
+            <MenubarTrigger className="font-bold">本地绘画师</MenubarTrigger>
             <MenubarContent>
                 <MenubarGroup>
                     <MenubarItem disabled={!path} onClick={() => { reducer.dispatch({ type: "RESET" }) }}>
-                        关闭项目
+                        关闭当前
+                    </MenubarItem>
+                    <MenubarItem>
+                        说明
                     </MenubarItem>
                     <MenubarItem onClick={() => { window.pywebview.api.exit_app() }}>
-                        退出程序
+                        退出
                     </MenubarItem>
                 </MenubarGroup>
             </MenubarContent>
-        </MenubarMenu>
-        <MenubarMenu>
-            <MenubarTrigger>
-                说明
-            </MenubarTrigger>
         </MenubarMenu>
         {path &&
             <MenubarMenu>

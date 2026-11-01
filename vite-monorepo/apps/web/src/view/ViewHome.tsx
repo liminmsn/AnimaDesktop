@@ -53,7 +53,7 @@ export default function () {
         {/* <Button disabled variant="link" className="text-muted-foreground" size="sm" nativeButton={false} render={<a href="#">帮助<ArrowUpRightIcon /></a>} /> */}
         <div className="flex gap-x-1.5">
             <Checkbox checked={state.remember} onCheckedChange={(checked) => reducer.dispatch({ type: "REMEMBER", checked })} />
-            <FieldLabel>自动打开上次项目</FieldLabel>
+            <FieldLabel>自动打开上次目录</FieldLabel>
         </div>
         {
             path_hostory.length > 0 &&

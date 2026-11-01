@@ -52,7 +52,7 @@ export default function FileTreeNode({ node, selected, onSelect }: { node: FileN
                         <Button variant="ghost" size="sm"
                             className="w-full justify-start font-normal aria-expanded:bg-transparent aria-expanded:hover:bg-muted dark:aria-expanded:hover:bg-muted/50">
                             <ChevronRightIcon className="transition-transform group-data-panel-open/button:rotate-90" />
-                            <FolderIcon />
+                            <FolderIcon color="var(--primary-foreground)" />
                             {node.name}
                             <div className="w-full overflow-hidden" dir="rtl">
                                 <RadioGroupItem value={node.path} id={node.path} onClick={(e) => e.stopPropagation()} />
@@ -81,7 +81,7 @@ export default function FileTreeNode({ node, selected, onSelect }: { node: FileN
                 aria-current={selected === node.path ? "true" : undefined}
                 onClick={() => onSelect(node.path)}
             >
-                <FileIcon />
+                <FileIcon color="var(--primary)"/>
                 {node.name}
             </Button>
         default: {
