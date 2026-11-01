@@ -1,6 +1,7 @@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@workspace/ui/components/collapsible"
 import { ChevronRightIcon, FileIcon, FolderIcon } from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
+import { RadioGroupItem } from "@workspace/ui/components/radio-group";
 
 // const files_: FileNode[] = [
 //   {
@@ -53,6 +54,9 @@ export default function FileTreeNode({ node, selected, onSelect }: { node: FileN
                             <ChevronRightIcon className="transition-transform group-data-panel-open/button:rotate-90" />
                             <FolderIcon />
                             {node.name}
+                            <div className="w-full overflow-hidden" dir="rtl">
+                                <RadioGroupItem value={node.path} id={node.path} onClick={(e) => e.stopPropagation()} />
+                            </div>
                         </Button>
                     } />
                 <CollapsibleContent>

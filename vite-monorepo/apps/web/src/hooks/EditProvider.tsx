@@ -6,15 +6,19 @@ type EditProviderType = {
 }
 type EditState = {
     current_file?: string
+    cureent_dir?: string
 }
 type Action =
     | { type: "SELECT_FILE", path: string }
+    | { type: "SELECT_DIR", path: string }
     | { type: "RESET" }
 
 function editReducer(state: EditState, action: Action): EditState {
     switch (action.type) {
         case "SELECT_FILE":
             return { ...state, current_file: action.path }
+        case "SELECT_DIR":
+            return { ...state, cureent_dir: action.path }
         case "RESET":
             return { ...state, current_file: undefined }
         default:
@@ -24,7 +28,7 @@ function editReducer(state: EditState, action: Action): EditState {
 
 const EditProvider = createContext<EditProviderType | undefined>(undefined);
 export default function ({ children }: { children: React.ReactNode }) {
-    const [state, dispatch] = useReducer(editReducer, { current_file: undefined })
+    const [state, dispatch] = useReducer(editReducer, { current_file: undefined, cureent_dir: undefined })
 
     return <EditProvider.Provider value={{ state, dispatch }}>
         {children}

@@ -24,7 +24,7 @@ export default function () {
     return <Empty className="pt-0">
         <div className="">
             <img width={155} srcSet={logo} />
-            <Card className="absolute right-32 top-15 px-3 bg-accent/50 shadow">
+            <Card className="absolute right-29 top-15 px-3 bg-accent/50 shadow">
                 <Label className="text-left inline-40 leading-5 text-[9pt]">Hi～我是绘图师🥰<br/>
                     主打 Q 版拟人、日系动漫风格 LOGO 与图标设计。
                     喜欢把想法揉成软萌又有记忆点的小形象，偏爱简洁好识别的构图。

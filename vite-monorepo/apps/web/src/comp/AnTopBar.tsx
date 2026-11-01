@@ -1,5 +1,7 @@
 import { Menubar, MenubarContent, MenubarGroup, MenubarItem, MenubarMenu, MenubarTrigger } from "@workspace/ui/components/menubar"
 import { useRouter } from "@/hooks/RouterProvider"
+import { BreadcrumbItem, BreadcrumbList } from "@workspace/ui/components/breadcrumb"
+import { FolderIcon } from "lucide-react"
 
 export default function () {
     const { reducer } = useRouter()
@@ -26,7 +28,14 @@ export default function () {
         </MenubarMenu>
         {path &&
             <MenubarMenu>
-                <div className="bg-primary text-primary-foreground text-[9pt] rounded-sm px-1">{path}</div>
+                <BreadcrumbList className="gap-0! items-start">
+                    <div className="bg-primary px-1">
+                        <FolderIcon size={15} color="var(--primary-foreground)" />
+                    </div>
+                    <BreadcrumbItem className="px-1.5 text-[8pt] bg-primary-foreground text-primary rounded-br-sm">
+                        {path}
+                    </BreadcrumbItem>
+                </BreadcrumbList>
             </MenubarMenu>
         }
     </Menubar>

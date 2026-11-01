@@ -3,21 +3,11 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbSeparator } from 
 
 export default function () {
     const { state } = useEditContext()
-    const path_arr = state.current_file.split("/")
     return <Breadcrumb>
-        <BreadcrumbList>
-            {
-                path_arr.map((item, idx) => {
-                    return <span key={item} className="flex items-center">
-                        <BreadcrumbItem>
-                            {item}
-                        </BreadcrumbItem>
-                        {idx != (path_arr.length - 1) && <BreadcrumbSeparator />}
-                    </span>
-                })
-            }
-            <BreadcrumbItem>
-                <sub>[本次生成会写入该文件]</sub>
+        <BreadcrumbList className="gap-0! items-start">
+            <BreadcrumbSeparator className="py-0.5 bg-primary text-primary-foreground" />
+            <BreadcrumbItem className="px-1.5 text-[8pt] bg-primary-foreground text-primary rounded-br-sm">
+                {state.cureent_dir ? `本次生成会写入到${state.cureent_dir}目录`:"稍等以一下下..."}
             </BreadcrumbItem>
         </BreadcrumbList>
     </Breadcrumb>
