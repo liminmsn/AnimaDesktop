@@ -5,6 +5,7 @@ import { useRouter } from "@/hooks/RouterProvider"
 import LodingView from "@/components/LodingView"
 import { useEffect, useState } from "react"
 import { RadioGroup } from "@base-ui/react"
+import CoumtTItle from "@/components/CoumtTItle"
 
 export default function () {
   const { reducer } = useRouter()
@@ -24,16 +25,19 @@ export default function () {
     }, 500);
   }, [dispatch, path])
 
-  return <LodingView show={files.length > 0}
-    children={files.map((node, idx) =>
-      <RadioGroup defaultValue={node.path} key={idx}>
-        <FileTreeNode
-          key={node.path}
-          node={node}
-          selected={state.current_file!}
-          onRadio={(path) => dispatch({ type: "SELECT_DIR", path })}
-          onSelect={(path) => dispatch({ type: "SELECT_FILE", path })} />
-      </RadioGroup>)
-    }
-  />
+  return <>
+    <CoumtTItle label="项目" />
+    <LodingView show={files.length > 0}
+      children={files.map((node, idx) =>
+        <RadioGroup defaultValue={node.path} key={idx}>
+          <FileTreeNode
+            key={node.path}
+            node={node}
+            selected={state.current_file!}
+            onRadio={(path) => dispatch({ type: "SELECT_DIR", path })}
+            onSelect={(path) => dispatch({ type: "SELECT_FILE", path })} />
+        </RadioGroup>)
+      }
+    />
+  </>
 }

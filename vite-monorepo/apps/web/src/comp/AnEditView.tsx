@@ -26,7 +26,7 @@ export default function () {
         <AnFileLinkView />
         <div className="p-2">
             <h1 className="font-medium text-sm leading-loose">提示词</h1>
-            <Textarea className="h-40" placeholder="这里输入提示词" />
+            <Textarea className="h-40 rounded-sm" placeholder="这里输入提示词" />
             <Button className="mt-2" onClick={test}><IconPhotoAi />生成</Button>
         </div>
     </>

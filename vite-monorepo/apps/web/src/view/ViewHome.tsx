@@ -57,7 +57,7 @@ export default function () {
         </div>
         {
             path_hostory.length > 0 &&
-            <Card className="gap-y-0 py-1">
+            <Card className="gap-y-0 py-0.5 rounded-none scale-90">
                 <ul className="text-left px-1 overflow-y-auto max-h-45 min-h-45">
                     {path_hostory.map(item => {
                         return <FieldLabel
@@ -68,7 +68,7 @@ export default function () {
                             <EmptyMedia variant="icon" className="mb-0">
                                 <IconFolder />
                             </EmptyMedia>
-                            <span className="block w-55 max-w-55 overflow-hidden text-ellipsis">{item}</span>
+                            <span className="block w-55 max-w-55 overflow-hidden text-ellipsis text-[10pt]">{item}</span>
                         </FieldLabel>
                     }
                     )}
