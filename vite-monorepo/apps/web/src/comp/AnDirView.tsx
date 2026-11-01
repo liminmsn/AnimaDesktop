@@ -31,34 +31,9 @@ export default function () {
           key={node.path}
           node={node}
           selected={state.current_file!}
+          onRadio={(path) => dispatch({ type: "SELECT_DIR", path })}
           onSelect={(path) => dispatch({ type: "SELECT_FILE", path })} />
       </RadioGroup>)
     }
   />
-
-  // return <div className="flex w-full max-w-xs flex-col text-sm">
-  //   <LodingView show={files.length > 0} children={files.map((node) => <FileTreeNode
-  //     key={node.path}
-  //     node={node}
-  //     selected={state.current_file!}
-  //     onSelect={(path) => dispatch({ type: "SELECT_FILE", path })}
-  //   />)} />
-  //   {/* <Tabs defaultValue="overview" className="w-full gap-y-1">
-  //     <TabsList className="mt-1 ml-2">
-  //       <TabsTrigger value="overview"><IconFolder />目录</TabsTrigger>
-  //       <TabsTrigger value="analytics"><IconPhoto />绘图集</TabsTrigger>
-  //     </TabsList>
-  //     <TabsContent value="overview">
-  //       <LodingView show={files.length > 0} children={files.map((node) => <FileTreeNode
-  //         key={node.path}
-  //         node={node}
-  //         selected={state.current_file || ""}
-  //         onSelect={(path) => dispatch({ type: "SELECT_FILE", path })}
-  //       />)} />
-  //     </TabsContent>
-  //     <TabsContent value="analytics">
-
-  //     </TabsContent>
-  //   </Tabs> */}
-  // </div>
 }

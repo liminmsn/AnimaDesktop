@@ -43,7 +43,14 @@ export type FileNode =
     | { type: "file"; name: string; path: string }
     | { type: "folder"; name: string; path: string; children: FileNode[] }
 
-export default function FileTreeNode({ node, selected, onSelect }: { node: FileNode; selected: string; onSelect: (path: string) => void }) {
+type FileTreeNodeType = {
+    node: FileNode;
+    selected: string;
+    onSelect: (path: string) => void;
+    onRadio?: (path: string) => void;
+}
+
+export default function FileTreeNode({ node, selected, onSelect, onRadio }: FileTreeNodeType) {
     switch (node.type) {
         case "folder":
             return <Collapsible defaultOpen>
@@ -54,9 +61,14 @@ export default function FileTreeNode({ node, selected, onSelect }: { node: FileN
                             <ChevronRightIcon className="transition-transform group-data-panel-open/button:rotate-90" />
                             <FolderIcon color="var(--primary-foreground)" />
                             {node.name}
-                            <div className="w-full overflow-hidden" dir="rtl">
-                                <RadioGroupItem value={node.path} id={node.path} onClick={(e) => e.stopPropagation()} />
-                            </div>
+                            {onRadio &&
+                                <div className="w-full overflow-hidden" dir="rtl">
+                                    <RadioGroupItem value={node.path} id={node.path} onClick={(e) => {
+                                        e.stopPropagation()
+                                        onRadio(node.path)
+                                    }} />
+                                </div>
+                            }
                         </Button>
                     } />
                 <CollapsibleContent>
@@ -67,6 +79,7 @@ export default function FileTreeNode({ node, selected, onSelect }: { node: FileN
                                 node={child}
                                 selected={selected}
                                 onSelect={onSelect}
+                                onRadio={onRadio}
                             />
                         ))}
                     </div>
@@ -81,7 +94,7 @@ export default function FileTreeNode({ node, selected, onSelect }: { node: FileN
                 aria-current={selected === node.path ? "true" : undefined}
                 onClick={() => onSelect(node.path)}
             >
-                <FileIcon color="var(--primary)"/>
+                <FileIcon color="var(--primary)" />
                 {node.name}
             </Button>
         default: {
