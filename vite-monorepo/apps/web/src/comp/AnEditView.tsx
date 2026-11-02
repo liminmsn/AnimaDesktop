@@ -1,7 +1,7 @@
 import { Button } from "@workspace/ui/components/button";
-import { Textarea } from "@workspace/ui/components/textarea";
 import { IconPhotoAi } from "@tabler/icons-react";
 import AnFileLinkView from "@/comp/AnFileLinkView";
+import { useEditContext } from "@/hooks/EditProvider";
 
 const test_obj = {
     w: 500,
@@ -15,19 +15,23 @@ const test_obj = {
     prompt: "masterpiece, best quality, a peaceful Japanese garden"
 }
 
-async function test() {
-    const result = await window.pywebview.api.create_png(test_obj);
-    console.log(result);
-}
-
-
 export default function () {
+    const { state, dispatch } = useEditContext()
+    
+    async function fun_generate() {
+        dispatch({ type: "SET_GENERATE", generate: true })
+        const result = await window.pywebview.api.create_png(test_obj);
+        console.log(result);
+        dispatch({ type: "SET_GENERATE", generate: false })
+    }
+
     return <>
         <AnFileLinkView />
         <div className="p-2">
-            <h1 className="font-medium text-sm leading-loose">提示词</h1>
-            <Textarea className="h-40 rounded-sm" placeholder="这里输入提示词" />
-            <Button className="mt-2" onClick={test}><IconPhotoAi />生成</Button>
+            <div>
+
+            </div>
+            <Button className="mt-2" disabled={state.generate} onClick={fun_generate}><IconPhotoAi />生成</Button>
         </div>
     </>
 }

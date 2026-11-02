@@ -59,10 +59,15 @@ def generate_image(api:'Api', params:'GenParams'):
 
     assert process.stdout is not None
     for line in process.stdout:
-        api.notify(line)
+        api.notify({
+            "key":"anim",
+            "msg":line
+        })
         # print(line, end="", flush=True)
     
     return_code = process.wait()
+
+    api.notify({"key":"anim","msg":"END"})
 
     result={
         "code":return_code,

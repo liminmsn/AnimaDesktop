@@ -6,6 +6,10 @@ import "@/pyNotify.ts"
 import "@workspace/ui/globals.css"
 import "@/style.css"
 
+window.addEventListener("contextmenu", (e) => {
+  e.preventDefault()
+})
+
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider>
     <RouterProvider>
