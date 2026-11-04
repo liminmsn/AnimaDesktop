@@ -25,20 +25,19 @@ export default function () {
         <div className="">
             <img width={155} srcSet={logo} />
             <Card className="absolute right-29 top-15 px-3 bg-accent/50 shadow">
-                <Label className="text-left inline-40 leading-5 text-[9pt]">Hi～我是绘图师🥰<br/>
+                <Label className="text-left inline-40 leading-5 text-[9pt]">Hi～我是绘图师🥰<br />
                     主打 Q 版拟人、日系动漫风格 LOGO 与图标设计。
                     喜欢把想法揉成软萌又有记忆点的小形象，偏爱简洁好识别的构图。
                     依托 Anima-P3-Turbo-AIO-Q4_K 出图，一起把脑洞变成好看的画面！</Label>
             </Card>
         </div>
         {
-            path_hostory.length == 0 && <>
-                <div className="flex items-center gap-1.5">
-                    <EmptyMedia variant="icon" >
-                        <IconFolderPlus />
-                    </EmptyMedia>
-                    <EmptyTitle>暂无项目</EmptyTitle>
-                </div>
+            path_hostory.length == 0 && <><div className="flex items-center gap-1.5">
+                <EmptyMedia variant="icon" >
+                    <IconFolderPlus />
+                </EmptyMedia>
+                <EmptyTitle>暂无项目</EmptyTitle>
+            </div>
                 <EmptyDescription>
                     导入您的第一个项目吧！
                 </EmptyDescription>
@@ -62,13 +61,13 @@ export default function () {
                     {path_hostory.map(item => {
                         return <FieldLabel
                             className="cursor-pointer border-b py-1 flex items-center gap-x-1.5"
-                            onClick={() => reducer.dispatch({ type: "OPEN_PATH", path: item })}
-                            key={item}
+                            onClick={() => reducer.dispatch({ type: "OPEN_PATH", path: item.path })}
+                            key={item.path}
                             title={`${item}`} >
                             <EmptyMedia variant="icon" className="mb-0">
                                 <IconFolder />
                             </EmptyMedia>
-                            <span className="block w-55 max-w-55 overflow-hidden text-ellipsis text-[10pt]">{item}</span>
+                            <span className="block w-55 max-w-55 overflow-hidden text-ellipsis text-[10pt]">{item.path}</span>
                         </FieldLabel>
                     }
                     )}

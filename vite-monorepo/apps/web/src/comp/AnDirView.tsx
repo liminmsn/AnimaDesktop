@@ -26,18 +26,27 @@ export default function () {
   useEffect(() => {
     setTimeout(() => {
       window.pywebview.api.load_dir(path_).then(res => {
-        dispatch({ type: "SELECT_DIR", path: res["path"] })
         setFiles([res])
-        console.log(res);
+
+        //历史项目选择目录save
+        reducer.state.path_hostory.filter(item => {
+          if (item.path == path_) {
+            if (!item.select_dir) {
+              reducer.dispatch({ type: "SET_SELECT_DIR", path: res["path"] })
+            } else {
+              dispatch({ type: "SELECT_DIR", path: item.select_dir })
+            }
+          }
+        })
       })
     }, 500);
-  }, [dispatch, path_, coumt])
+  }, [dispatch, path_, coumt, reducer.state.path_hostory, reducer])
 
   return <>
     <CoumtTItle label="项目" />
     <LodingView show={files.length > 0}
       children={files.map((node, idx) =>
-        <RadioGroup defaultValue={node.path} key={idx}>
+        <RadioGroup defaultValue={state.cureent_dir} key={idx}>
           <FileTreeNode
             key={node.path}
             node={node}

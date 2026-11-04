@@ -1,5 +1,6 @@
 import type React from "react";
 import { createContext, useContext, useReducer, type Dispatch } from "react";
+import { update_select_dir } from "./RouterProvider";
 type EditProviderType = {
     state: EditState;
     dispatch: Dispatch<Action>
@@ -20,11 +21,12 @@ function editReducer(state: EditState, action: Action): EditState {
         case "SET_GENERATE":
             return { ...state, generate: action.generate }
         case "SELECT_FILE":
-            console.log(action,'action');
-            
             return { ...state, current_file: action.path }
         case "SELECT_DIR":
-            return { ...state, cureent_dir: action.path }
+            {
+                update_select_dir(action.path)
+                return { ...state, cureent_dir: action.path }
+            }
         case "RESET":
             return { ...state, current_file: undefined }
         default:

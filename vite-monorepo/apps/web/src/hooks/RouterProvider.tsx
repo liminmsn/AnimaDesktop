@@ -5,10 +5,11 @@ import ViewEdit from "@/view/ViewEdit";
 type RouterState = {
   remember: boolean
   path: string | undefined
-  path_hostory: string[]
+  path_hostory: { path: string, select_dir: string }[]
 };
 type Action =
   | { type: "OPEN_PATH"; path: string | undefined }
+  | { type: "SET_SELECT_DIR"; path: string }
   | { type: "REMEMBER"; checked: boolean }
   | { type: "RESET" };
 type RouterContextValue = {
@@ -34,6 +35,18 @@ function getLocalData(): RouterState {
   }
   return { remember: false, path: undefined, path_hostory: [] }
 }
+
+export function update_select_dir(select_dir: string) {
+  const obj = getLocalData()
+  obj.path_hostory.filter(item => {
+    if (item.path == obj.path) {
+      item.select_dir = select_dir;
+    }
+  })
+  localStorage.setItem(ROUTER_DATA, JSON.stringify(obj));
+}
+
+
 function getDefaultView(data: RouterState) {
   if (data.path) {
     return () => RouterViewEnum.EDIT
@@ -60,8 +73,13 @@ export default function ({ children }: { children: React.ReactNode }) {
       case "OPEN_PATH":
         {
           to("EDIT")
-          if (action.path && !state.path_hostory.includes(action.path)) {
-            state.path_hostory.push(action.path)
+          if (action.path) {
+            if (state.path_hostory.filter(item => item.path == action.path).length == 0) {
+              state.path_hostory.push({
+                path: action.path,
+                select_dir: ""
+              })
+            }
           }
           const data = { ...state, path: action.path }
 
@@ -72,6 +90,16 @@ export default function ({ children }: { children: React.ReactNode }) {
             localStorage.setItem(ROUTER_DATA, JSON.stringify({ ...data, path: undefined }))
           }
           return data;
+        }
+      case "SET_SELECT_DIR":
+        {
+          state.path_hostory.filter(item => {
+            if (state.path == item.path) {
+              item.select_dir = action.path;
+            }
+          });
+          localStorage.setItem(ROUTER_DATA, JSON.stringify(state));
+          return { ...state };
         }
       case "RESET":
         to("HOME")
