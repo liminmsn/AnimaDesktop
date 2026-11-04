@@ -6,8 +6,8 @@ type EditProviderType = {
     dispatch: Dispatch<Action>
 }
 type EditState = {
-    generate: boolean
-    current_file?: string
+    generate: boolean //ai进程状态
+    current_file?: string //预览图片
     cureent_dir?: string
 }
 type Action =
