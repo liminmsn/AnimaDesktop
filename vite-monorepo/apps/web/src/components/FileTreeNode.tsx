@@ -1,7 +1,9 @@
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@workspace/ui/components/collapsible"
-import { ChevronRightIcon, FileIcon, FolderIcon } from "lucide-react"
-import { Button } from "@workspace/ui/components/button"
+import { ContextMenu, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuShortcut, ContextMenuTrigger } from "@workspace/ui/components/context-menu";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@workspace/ui/components/collapsible";
+import { ChevronRightIcon, FileIcon, FolderIcon } from "lucide-react";
+import { Button } from "@workspace/ui/components/button";
 import { RadioGroupItem } from "@workspace/ui/components/radio-group";
+import { Label } from "@workspace/ui/components/label";
 
 // const files_: FileNode[] = [
 //   {
@@ -46,9 +48,10 @@ export type FileNode =
 type FileTreeNodeType = {
     node: FileNode;
     selected: string;
-    onSelect: (path: string) => void;
+    onSelect: (key: string, path: string) => void;
     onRadio?: (path: string) => void;
 }
+
 
 export default function FileTreeNode({ node, selected, onSelect, onRadio }: FileTreeNodeType) {
     switch (node.type) {
@@ -86,17 +89,33 @@ export default function FileTreeNode({ node, selected, onSelect, onRadio }: File
                 </CollapsibleContent>
             </Collapsible>
         case "file":
-            return <Button
-                variant="ghost"
-                size="sm"
-                className={`w-full justify-start font-normal ${selected === node.path ? "bg-accent text-accent-foreground" : ""
-                    }`}
-                aria-current={selected === node.path ? "true" : undefined}
-                onClick={() => onSelect(node.path)}
-            >
-                <FileIcon color="var(--primary)" />
-                {node.name}
-            </Button>
+            return <ContextMenu>
+                <ContextMenuTrigger>
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        className={`w-full justify-start font-normal ${selected === node.path ? "bg-accent text-accent-foreground" : ""
+                            }`}
+                        aria-current={selected === node.path ? "true" : undefined}
+                        onClick={() => onSelect("select", node.path)}
+                    >
+                        <FileIcon color="var(--primary)" />
+                        {node.name}
+                    </Button>
+                </ContextMenuTrigger>
+                <ContextMenuContent className="w-48">
+                    <ContextMenuGroup>
+                        <ContextMenuItem onClick={() => onSelect("del", node.path)}>
+                            <Label className="text-red-500">删除</Label>
+                            <ContextMenuShortcut>从本地删文件</ContextMenuShortcut>
+                        </ContextMenuItem>
+                        <ContextMenuItem onClick={() => onSelect("view", node.path)}>
+                            预览
+                            <ContextMenuShortcut>查看文件</ContextMenuShortcut>
+                        </ContextMenuItem>
+                    </ContextMenuGroup>
+                </ContextMenuContent>
+            </ContextMenu>
         default: {
             const unreachable: never = node
             return unreachable

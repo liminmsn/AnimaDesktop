@@ -15,7 +15,7 @@ export default function () {
                 <AnEditView />
             </ResizablePanel>
             <ResizableHandle withHandle />
-            <ResizablePanel defaultSize="30%">
+            <ResizablePanel defaultSize="35%">
                 <AnInfoView />
             </ResizablePanel>
         </EditProvider>

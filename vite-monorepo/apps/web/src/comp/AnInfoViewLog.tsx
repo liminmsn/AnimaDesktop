@@ -14,7 +14,7 @@ export default function () {
 
     add_monitor<{ key: "anim", msg: string }>((data) => {
         if (data.key == "anim") {
-            console.log(data.msg);
+            // console.log(data.msg);
             setLog([...logs, data.msg])
         }
     })

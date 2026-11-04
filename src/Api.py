@@ -1,5 +1,9 @@
-import json
 import webview
+import os
+import json
+import base64
+import pathlib
+
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from src.Application import Application
@@ -19,11 +23,13 @@ class Api:
             )
 
     def exit_app(self):
+        """退出程序"""
         if not self._app or not self._app.win:
             return None
         return self._app.win.destroy()
     
     def load_dir(self,path:str):
+        """加载文件树"""
         from src.core.resources import scan_tree
         return scan_tree(path)
     
@@ -39,6 +45,22 @@ class Api:
         if result:
             return result[0].replace("\\","/")
         return None
+    
+    def dele_file(self,path_:str):
+        """删除文件"""
+        path = pathlib.Path(path_)
+        if os.path.exists(path):
+            os.remove(path)
+        self.notify({"msg":"ref_dir"})
+    
+    def view_image(self, path: str) -> str:
+        """预览图片"""
+        p = pathlib.Path(path)
+        with open(p, "rb") as f:
+            data = f.read()
+
+        b64 = base64.b64encode(data).decode("ascii")
+        return f"data:image/png;base64,{b64}"
 
     def create_png(self,  params: dict):
             """调用本地模型生成图片"""

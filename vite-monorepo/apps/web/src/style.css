@@ -18,8 +18,9 @@
 
 ::-webkit-scrollbar {
   appearance: none;
-  width: 5pt;
-  background: var(--color-primary-foreground);
+  height: 5px;
+  width: 5px;
+  /* background: var(--color-primary-foreground); */
 }
 
 ::-webkit-scrollbar-thumb {

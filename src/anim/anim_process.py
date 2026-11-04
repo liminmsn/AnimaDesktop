@@ -67,16 +67,17 @@ def generate_image(api:'Api', params:'GenParams'):
     
     return_code = process.wait()
 
-    api.notify({"key":"anim","msg":"END"})
+    # api.notify({"key":"anim","msg":"END"})
+    api.notify({"msg":"ref_dir"})
 
     result={
         "code":return_code,
         "out_file":params.out_file,
-        "message":"图片生成完毕！"
+        "msg":"图片生成完毕！"
     }
 
     if return_code != 0:
-        result["message"] = "Stable Diffusion.cpp 执行失败，退出码：{return_code}"
+        result["msg"] = "Stable Diffusion.cpp 执行失败，退出码：{return_code}"
     if not out_file.is_file():
-        result["message"] = "引擎退出，但没有找到输出图片。"
+        result["msg"] = "引擎退出，但没有找到输出图片。"
     return result

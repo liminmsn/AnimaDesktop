@@ -20,6 +20,8 @@ function editReducer(state: EditState, action: Action): EditState {
         case "SET_GENERATE":
             return { ...state, generate: action.generate }
         case "SELECT_FILE":
+            console.log(action,'action');
+            
             return { ...state, current_file: action.path }
         case "SELECT_DIR":
             return { ...state, cureent_dir: action.path }
