@@ -43,7 +43,13 @@ export default function () {
     const { state, dispatch } = useEditContext()
     const form = state.gen_params
 
-    useEffect(() => { }, [state.gen_params])
+    useEffect(() => {        
+        reducer.state.path_hostory.forEach(item => {
+            if (item.select_dir == state.cureent_dir && item.gen_params) {
+                dispatch({ type: "SET_GENPARAMS", gen_params: item.gen_params })
+            }
+        })
+    }, [dispatch, reducer.state.path_hostory, state.cureent_dir])
 
     async function fun_generate() {
         console.log(form);

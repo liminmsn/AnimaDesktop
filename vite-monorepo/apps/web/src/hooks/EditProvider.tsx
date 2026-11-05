@@ -1,6 +1,6 @@
 import type React from "react";
 import { createContext, useContext, useReducer, type Dispatch } from "react";
-import { update_select_dir } from "./RouterProvider";
+import { getLocalData, saveRouderData, update_select_dir } from "./RouterProvider";
 type EditProviderType = {
     state: EditState;
     dispatch: Dispatch<Action>
@@ -49,8 +49,14 @@ function editReducer(state: EditState, action: Action): EditState {
         case "SET_GENERATE":
             return { ...state, generate: action.generate }
         case "SET_GENPARAMS":
-            
-            return { ...state, gen_params: action.gen_params }
+            {
+                const router_data = getLocalData();
+                router_data.path_hostory.filter(item => item.select_dir == state.cureent_dir).forEach(item => {
+                    item.gen_params = action.gen_params
+                });
+                saveRouderData(router_data)
+                return { ...state, gen_params: action.gen_params }
+            }
         case "SELECT_FILE":
             return { ...state, current_file: action.path }
         case "SELECT_DIR":

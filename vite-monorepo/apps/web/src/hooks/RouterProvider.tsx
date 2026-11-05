@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useReducer, useState } from "react";
 import ViewHome from "@/view/ViewHome";
 import ViewEdit from "@/view/ViewEdit";
+import type { GenParams } from "./EditProvider";
 
 type RouterState = {
   remember: boolean
   path: string | undefined
-  path_hostory: { path: string, select_dir: string }[]
+  path_hostory: { path: string, select_dir: string, gen_params?: GenParams }[]
 };
 type Action =
   | { type: "OPEN_PATH"; path: string | undefined }
@@ -46,7 +47,7 @@ export function update_select_dir(select_dir: string) {
   localStorage.setItem(ROUTER_DATA, JSON.stringify(obj));
 }
 
-function saveRouderData(data: RouterState) {
+export function saveRouderData(data: RouterState) {
   localStorage.setItem(ROUTER_DATA, JSON.stringify(data))
 }
 
@@ -81,6 +82,7 @@ export default function ({ children }: { children: React.ReactNode }) {
           if (action.path) {
             if (state.path_hostory.filter(item => item.path == action.path).length == 0) {
               state.path_hostory.push({
+                gen_params: undefined,
                 path: action.path,
                 select_dir: ""
               })

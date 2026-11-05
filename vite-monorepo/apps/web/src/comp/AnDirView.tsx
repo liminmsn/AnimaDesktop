@@ -29,7 +29,7 @@ export default function () {
         setFiles([res])
 
         //历史项目选择目录save
-        reducer.state.path_hostory.filter(item => {
+        reducer.state.path_hostory.forEach(item => {
           if (item.path == path_) {
             if (!item.select_dir) {
               reducer.dispatch({ type: "SET_SELECT_DIR", path: res["path"] })
