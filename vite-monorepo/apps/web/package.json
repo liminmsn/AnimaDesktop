@@ -16,6 +16,7 @@
     "@fontsource-variable/inter": "^5.3.0",
     "@fontsource-variable/oxanium": "^5.3.0",
     "@tabler/icons-react": "^3.50.0",
+    "@uiw/react-markdown-preview": "^5.2.1",
     "@workspace/ui": "*",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.5.0",

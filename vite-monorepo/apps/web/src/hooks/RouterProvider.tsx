@@ -28,7 +28,7 @@ const RouterViewEnum = {
   EDIT: ViewEdit
 }
 
-function getLocalData(): RouterState {
+export function getLocalData(): RouterState {
   const data = localStorage.getItem(ROUTER_DATA)
   if (data) {
     return JSON.parse(data)
@@ -46,6 +46,9 @@ export function update_select_dir(select_dir: string) {
   localStorage.setItem(ROUTER_DATA, JSON.stringify(obj));
 }
 
+function saveRouderData(data: RouterState) {
+  localStorage.setItem(ROUTER_DATA, JSON.stringify(data))
+}
 
 function getDefaultView(data: RouterState) {
   if (data.path) {
@@ -53,7 +56,9 @@ function getDefaultView(data: RouterState) {
   }
   return () => RouterViewEnum.HOME
 }
+
 const RouterProvider = createContext<RouterProviderType | undefined>(undefined);
+
 export default function ({ children }: { children: React.ReactNode }) {
   // 路由
   const [current, setCurrent] = useState(getDefaultView(getLocalData()));
@@ -67,7 +72,7 @@ export default function ({ children }: { children: React.ReactNode }) {
       case "REMEMBER":
         {
           const data = { ...state, remember: action.checked }
-          localStorage.setItem(ROUTER_DATA, JSON.stringify(data))
+          saveRouderData(data);
           return data
         }
       case "OPEN_PATH":
@@ -84,11 +89,7 @@ export default function ({ children }: { children: React.ReactNode }) {
           const data = { ...state, path: action.path }
 
           // 是否记录上一次打开的项目
-          if (data.remember) {
-            localStorage.setItem(ROUTER_DATA, JSON.stringify(data))
-          } else {
-            localStorage.setItem(ROUTER_DATA, JSON.stringify({ ...data, path: undefined }))
-          }
+          saveRouderData(data.remember ? data : { ...data, path: undefined });
           return data;
         }
       case "SET_SELECT_DIR":

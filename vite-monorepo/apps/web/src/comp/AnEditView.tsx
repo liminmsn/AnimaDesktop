@@ -5,8 +5,8 @@ import { Input } from "@workspace/ui/components/input"
 import { Button } from "@workspace/ui/components/button";
 import { IconPhotoAi } from "@tabler/icons-react";
 import AnFileLinkView from "@/comp/AnFileLinkView";
-import { useEditContext } from "@/hooks/EditProvider";
-import { useState } from "react";
+import { useEditContext, type GenParams } from "@/hooks/EditProvider";
+import { useEffect, useState } from "react";
 import { joinPathDir } from "@/lib/path";
 import { useRouter } from "@/hooks/RouterProvider";
 import { timeFileName } from "@/lib/file";
@@ -38,38 +38,30 @@ const samplers = [
     { label: "uni_pc", value: "uni_pc" },
 ]
 
-export type GenParams = {
-    w: number
-    h: number
-    steps: number
-    cfg_scale: number
-    seed: number
-    scheduler: string
-    sampling_method: string
-    out_file: string
-    prompt: string
-}
-
-const defaultParams: GenParams = {
-    w: 500,
-    h: 500,
-    steps: 16,
-    cfg_scale: 1,
-    seed: 666,
-    scheduler: "smoothstep",
-    sampling_method: "er_sde",
-    out_file: "",
-    prompt: "",
-}
-
-
 export default function () {
     const { reducer } = useRouter()
     const { state, dispatch } = useEditContext()
-    const [form, setForm] = useState<GenParams>(defaultParams)
+    const form = state.gen_params
 
+    useEffect(() => { }, [state.gen_params])
+
+    async function fun_generate() {
+        console.log(form);
+        if (!validate()) return
+        dispatch({ type: "SET_GENERATE", generate: true })
+        //设置输出文件
+        form.out_file = `${joinPathDir(reducer.state.path!, state.cureent_dir!)}${timeFileName()}`;
+        window.pywebview.api.create_png(form).then((result: { code: number; out_file: string; msg: string }) => {
+            // setTimeout(() => {
+            // }, 1000);
+            console.log(result);
+            dispatch({ type: "SELECT_FILE", path: result.out_file })
+            dispatch({ type: "SET_GENERATE", generate: false })
+        });
+    }
+
+    // y验证相关
     const [errors, setErrors] = useState<Partial<Record<keyof GenParams, string>>>({})
-
     function validate(): boolean {
         const e: Partial<Record<keyof GenParams, string>> = {}
         if (!form.w) e.w = "宽度必填"
@@ -83,11 +75,10 @@ export default function () {
         setErrors(e)
         return Object.keys(e).length === 0
     }
-
     function setField<K extends keyof GenParams>(key: K, value: GenParams[K]) {
-        setForm((prev) => ({ ...prev, [key]: value }))
+        form[key] = value;
+        dispatch({ type: "SET_GENPARAMS", gen_params: form })
     }
-
     function setNumber(key: keyof GenParams, raw: string, integer = true) {
         if (raw === "") {
             setField(key, 0 as never)
@@ -95,21 +86,6 @@ export default function () {
         }
         const n = integer ? parseInt(raw, 10) : parseFloat(raw)
         setField(key, (isNaN(n) ? 0 : n) as never)
-    }
-
-    async function fun_generate() {
-        if (!validate()) return
-        dispatch({ type: "SET_GENERATE", generate: true })
-        console.log(form);
-        //设置输出文件
-        form.out_file = `${joinPathDir(reducer.state.path!, state.cureent_dir!)}${timeFileName()}`;
-        window.pywebview.api.create_png(form).then((result: { code: number; out_file: string; msg: string }) => {
-            setTimeout(() => {
-                dispatch({ type: "SELECT_FILE", path: form.out_file })
-            }, 1000);
-            console.log(result);
-            dispatch({ type: "SET_GENERATE", generate: false })
-        });
     }
 
     return <>
@@ -124,8 +100,8 @@ export default function () {
                                 <Input
                                     id="gen-w"
                                     type="number"
-                                    min={64}
-                                    step={64}
+                                    min={30}
+                                    step={30}
                                     value={form.w}
                                     onChange={(e) => setNumber("w", e.target.value)}
                                 />
@@ -136,8 +112,8 @@ export default function () {
                                 <Input
                                     id="gen-h"
                                     type="number"
-                                    min={64}
-                                    step={64}
+                                    min={30}
+                                    step={30}
                                     value={form.h}
                                     onChange={(e) => setNumber("h", e.target.value)}
                                 />
