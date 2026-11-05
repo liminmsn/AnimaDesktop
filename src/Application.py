@@ -4,7 +4,7 @@ from src.core.resources import ROOT
 
 STORAGE_DIR = ROOT / "data"
 
-DEV = True
+DEV = False
 if DEV:
     INDEX_HTML = "http://localhost:5173"
 else:
