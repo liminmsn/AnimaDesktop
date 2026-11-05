@@ -63,7 +63,7 @@ export default function () {
                             className="cursor-pointer border-b py-1 flex items-center gap-x-1.5"
                             onClick={() => reducer.dispatch({ type: "OPEN_PATH", path: item.path })}
                             key={item.path}
-                            title={`${item}`} >
+                            title={`${item.path}`} >
                             <EmptyMedia variant="icon" className="mb-0">
                                 <IconFolder />
                             </EmptyMedia>
