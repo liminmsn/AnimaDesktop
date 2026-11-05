@@ -108,7 +108,7 @@ export default function () {
     const { reducer } = useRouter()
     const { path } = reducer.state
 
-    return <Menubar className="rounded-none">
+    return <Menubar className="rounded-none bg-accent">
         <MenubarMenu>
             <MenubarTrigger className="font-bold">本地绘画师</MenubarTrigger>
             <MenubarContent>

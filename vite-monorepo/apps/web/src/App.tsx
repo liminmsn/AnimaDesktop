@@ -3,7 +3,7 @@ import { useRouter } from "./hooks/RouterProvider";
 
 export default function () {
   const { current: Component } = useRouter()
-  return <div className="h-screen flex flex-col bg-accent">
+  return <div className="h-screen flex flex-col bg-background">
     <AnTopBar />
     <Component />
   </div>

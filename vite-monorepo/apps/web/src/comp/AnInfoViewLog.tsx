@@ -1,9 +1,10 @@
 import { CircleCheckIcon, LoaderCircleIcon } from "lucide-react"
 import { Trace, TraceIcon, TraceLine, TraceTitle, } from "@workspace/ui/components/trace"
+import { Empty, EmptyDescription, EmptyMedia } from "@workspace/ui/components/empty"
 import CoumtTItle from "@/components/CoumtTItle"
 import { add_monitor } from "@/pyNotify"
-import { EmptyDescription } from "@workspace/ui/components/empty"
 import { useEditContext } from "@/hooks/EditProvider"
+import { IconInfoHexagon } from "@tabler/icons-react"
 import useAutoScroll from 'use-auto-scroller';
 import { useState } from "react"
 
@@ -22,6 +23,12 @@ export default function () {
     return <div className="h-full relative overflow-y-auto">
         <CoumtTItle label="日志" />
         <EmptyDescription className="rounded-tr-2xl text-[6pt] p-1">
+            <Empty className="gap-y-0">
+                <EmptyMedia variant="icon">
+                    <IconInfoHexagon />
+                </EmptyMedia>
+                <EmptyDescription>生成日志在这里</EmptyDescription>
+            </Empty>
             {logs.map((log, i) => {
                 return <pre key={i} className="">{log}</pre>
             })}
