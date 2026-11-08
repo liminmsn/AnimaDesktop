@@ -39,6 +39,6 @@ class Application:
     def run(self):
         webview.start(
             private_mode=False,
-            storage_path=str(STORAGE_DIR),
+            # storage_path=str(STORAGE_DIR),
             debug=DEV,
         )
