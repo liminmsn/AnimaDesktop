@@ -23,12 +23,15 @@ export default function () {
     return <div className="h-full relative overflow-y-auto">
         <CoumtTItle label="日志" />
         <EmptyDescription className="rounded-tr-2xl text-[6pt] p-1">
-            <Empty className="gap-y-0">
-                <EmptyMedia variant="icon">
-                    <IconInfoHexagon />
-                </EmptyMedia>
-                <EmptyDescription>生成日志在这里</EmptyDescription>
-            </Empty>
+            {
+                logs.length == 0 &&
+                <Empty className="gap-y-0">
+                    <EmptyMedia variant="icon">
+                        <IconInfoHexagon />
+                    </EmptyMedia>
+                    <EmptyDescription>生成日志在这里</EmptyDescription>
+                </Empty>
+            }
             {logs.map((log, i) => {
                 return <pre key={i} className="">{log}</pre>
             })}
