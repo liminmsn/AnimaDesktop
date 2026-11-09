@@ -23,7 +23,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='main',
+    name='本地绘画师',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

@@ -23,9 +23,9 @@ class Application:
         self.win = webview.create_window(
             title=WINDOW_TITLE,
             url=INDEX_HTML,
-            js_api=self.api,
             width=WINDOW_WIDTH,
             height=WINDOW_HEIGHT,
+            js_api=self.api,
             min_size=(700, 600),
             resizable=True,
             frameless=True,
